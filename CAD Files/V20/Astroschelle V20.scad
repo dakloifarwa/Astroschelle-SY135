@@ -1,4 +1,4 @@
-$fn = 12; // global number of fragments, 300 for final export to STL
+$fn = 300; // global number of fragments, 300 for final export to STL
 min_wt = 3.0; // minimum wall thickness for carrier elements
 
 samyang_h1 = 50.0; // Samyang lens dimensions
