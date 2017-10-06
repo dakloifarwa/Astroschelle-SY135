@@ -109,7 +109,7 @@ module dovetail()
 										  }
 								  }
 						}
-					translate([0,0,(samyang_d1+2*tubering_t+tube_offset)/2]) rotate([90,0,0]) cylinder(d=samyang_d1+2*tubering_t, h=tubering_w1+1, center=true);
+					translate([0,0,(samyang_d1+2*tubering_t+tube_offset)/2]) rotate([90,0,0]) cylinder(d=samyang_d1+2*tubering_t-0.1, h=tubering_w1+1, center=true);
 				}
 				
 			translate([0,(length-tubering_w2)/2,-wh+tube_offset+(samyang_d1-samyang_d2)/4])
@@ -139,7 +139,7 @@ module dovetail()
 											 }
 									  }
 						}
-					translate([0,0,(samyang_d2+(samyang_d1-samyang_d2)/2+2*tubering_t+tube_offset)/2]) rotate([90,0,0]) cylinder(d=samyang_d2+2*tubering_t, h=tubering_w2+1, center=true);
+					translate([0,0,(samyang_d2+(samyang_d1-samyang_d2)/2+2*tubering_t+tube_offset)/2]) rotate([90,0,0]) cylinder(d=samyang_d2+2*tubering_t-0.1, h=tubering_w2+1, center=true);
 				}
 		}
 	else
