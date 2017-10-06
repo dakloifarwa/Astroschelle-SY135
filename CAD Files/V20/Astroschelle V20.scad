@@ -4,7 +4,7 @@ min_wt = 3.0; // minimum wall thickness for carrier elements
 samyang_h1 = 50.0; // Samyang lens dimensions
 samyang_d1 = 76.0; // rear ring diameter
 samyang_h2 = 60.0;
-samyang_d2 = 71.0; // front ring diameter
+samyang_d2 = 70.5; // front ring diameter
 samyang_d1_chamfer = 2.0 + min_wt; // has to be larger than the actually required chamfer
 samyang_d2_chamfer = 1.8;
 
@@ -158,6 +158,11 @@ module dovetail()
  
 module lower_tubering_1() // lower tr
 {
+	chmf_offs_r = 0.8; // TODO: dynamic calculation
+	chmf_offs_l = 1.8;
+	chmf_rad_l = 5;
+	chmf_rad_r = chmf_rad_l;
+ 
 	d1=samyang_d1;
 	difference()
 		{
@@ -189,6 +194,20 @@ module lower_tubering_1() // lower tr
 								  }
 							translate([0,-link_l1/2,0]) rotate([0,90,0]) cylinder(d=link_hole,h=link_h+0.1, center=true);
 						}
+    translate([-link_w/2-chmf_rad_l/2,-(d1/2+chmf_rad_l/2+chmf_offs_l),0])
+    rotate([180,0,0])
+    difference() // chamfer left
+  {
+  cube([chmf_rad_l,chmf_rad_l,link_h], center=true);
+  translate([-chmf_rad_l/2,chmf_rad_l/2+0,0])  cylinder(d=(2 * chmf_rad_l), h=link_h+0.1, center=true);
+  }
+    translate([-(lock_lower_h+chmf_rad_r/2),+(d1/2+chmf_rad_r/2+chmf_offs_r),0])
+    rotate([180,0,0])
+    difference() // chamfer right
+  {
+  cube([chmf_rad_r,chmf_rad_r,tubering_w1], center=true);
+  translate([-chmf_rad_r/2,-chmf_rad_r/2+0,0])  cylinder(d=(2 * chmf_rad_r), h=tubering_w1+0.1, center=true);
+  }
 				}
 			translate([-lock_lower_h/2,d1/2+lock_lower_l1,0])
 			rotate([90,0,90])
@@ -206,6 +225,10 @@ module lower_tubering_1() // lower tr
  
 module upper_tubering_1() // upper tr
 {
+  chmf_offs_r = 8.1; // TODO: dynamic calculation
+  chmf_offs_l = 1.9;
+  chmf_rad_l = 5;
+   
 	d1=samyang_d1;
 	difference() // clearance for lock
 		{
@@ -228,10 +251,14 @@ module upper_tubering_1() // upper tr
 										  {
 											 union() // bolt holder
 												 {
-													 translate([0,d1/2+link_l1,0]) cylinder(d=link_w,h=link_h+2*bolt_holder_t, center=true);
-													 translate([-(link_w/2)/2,d1/2+link_l1/2,0]) cube([(link_w/2),link_l1,link_h+2*bolt_holder_t],  center=true);
-												 }
-											 translate([0,d1/2+link_l1,0]) cube([link_w+0.1,link_w+0.1,link_h+2*clearance_mp], center=true);
+														translate([0,d1/2+link_l1,0]) cylinder(d=link_w,h=link_h+2*bolt_holder_t, center=true);
+														difference() // chamfer
+															{
+																translate([-(link_w)/2,d1/2+link_l1/2,0]) cube([(link_w),link_l1,link_h+2*bolt_holder_t],  center=true);
+																translate([-(link_w)/2+(-2*link_w/2)+chmf_offs_r/2,d1/2+link_l1+(0),0]) cylinder(d=2*link_w-chmf_offs_r,h=link_h+2*bolt_holder_t+0.1,  center=true);
+															}
+    }
+  translate([0,d1/2+link_l1,0]) cube([3*link_w+0.1,link_w+0.1,link_h+2*clearance_mp], center=true);
 										  }
 									  translate([0,d1/2+link_l1,0]) cylinder(d=link_bolt,h=link_h+2*clearance_mp, center=true); // link bolt
 								  }
@@ -252,10 +279,22 @@ module upper_tubering_1() // upper tr
 				}
 			translate([-1/2,lock_upper_l1/2,0]) rotate([0,90,0]) cylinder(d=screwnut_hole_upper, h=lock_upper_h+1+0.1, center=true);
 		}
+		translate([-lock_upper_h-chmf_rad_l/2-clearance_lock,-(d1/2+chmf_rad_l/2+chmf_offs_l),0])
+		rotate([180,0,0])
+		difference() // chamfer
+			{
+				cube([chmf_rad_l,chmf_rad_l,tubering_w1], center=true);
+				translate([-chmf_rad_l/2,chmf_rad_l/2+0,0])  cylinder(d=(2 * chmf_rad_l), h=tubering_w1+0.1, center=true);
+			}
 }
  
 module lower_tubering_2() // lower tr
 {
+  chmf_offs_r = 0.5; // TODO: dynamic calculation
+  chmf_offs_l = 1.7;
+  chmf_rad_l = 5;
+  chmf_rad_r = chmf_rad_l;
+ 
 	d2=samyang_d2;
 	difference()
 		{
@@ -287,6 +326,20 @@ module lower_tubering_2() // lower tr
 								  }
 							translate([0,-link_l2/2,0]) rotate([0,90,0]) cylinder(d=link_hole,h=link_h+0.1, center=true);
 						}
+					translate([-link_w/2-chmf_rad_l/2,-(d2/2+chmf_rad_l/2+chmf_offs_l),0])
+					rotate([180,0,0])
+					difference() // chamfer left
+						{
+							cube([chmf_rad_l,chmf_rad_l,link_h], center=true);
+							translate([-chmf_rad_l/2,chmf_rad_l/2+0,0])  cylinder(d=(2 * chmf_rad_l), h=link_h+0.1, center=true);
+						}
+					translate([-(lock_lower_h+chmf_rad_r/2),+(d2/2+chmf_rad_r/2+chmf_offs_r),0])
+					rotate([180,0,0])
+					difference() // chamfer right
+						{
+							cube([chmf_rad_r,chmf_rad_r,tubering_w2], center=true);
+							translate([-chmf_rad_r/2,-chmf_rad_r/2+0,0])  cylinder(d=(2 * chmf_rad_r), h=tubering_w2+0.1, center=true);
+						}
 				}
 			translate([-lock_lower_h/2,d2/2+lock_lower_l2,0])
 			rotate([90,0,90])
@@ -304,11 +357,15 @@ module lower_tubering_2() // lower tr
  
 module upper_tubering_2() // upper tr
 {
+  chmf_offs_r = 0.4; // TODO: dynamic calculation
+  chmf_offs_l = 1.9;
+  chmf_rad_l = 5;
+   
+  d2=samyang_d2;
 	difference()
 		{
 			union()
 				{
-					d2=samyang_d2;
 					difference() // clearance for lock
 						{
 							difference() // clearance for part-in-part
@@ -330,10 +387,14 @@ module upper_tubering_2() // upper tr
 														{
 															union() // bolt holder
 																{
-																          translate([0,d2/2+link_l2,0]) cylinder(d=link_w,h=link_h+2*bolt_holder_t, center=true);
-																          translate([-(link_w/2)/2,d2/2+link_l2/2,0]) cube([(link_w/2),link_l2,link_h+2*bolt_holder_t],  center=true);
+																  translate([0,d2/2+link_l2,0]) cylinder(d=link_w,h=link_h+2*bolt_holder_t, center=true);
+																	difference() // chamfer
+																		{
+																			translate([-(link_w)/2,d2/2+link_l2/2,0]) cube([(link_w),link_l2,link_h+2*bolt_holder_t],  center=true);
+																			translate([-(link_w)/2+(-2*link_w/2)+chmf_offs_r/2,d2/2+link_l2+(0),0]) cylinder(d=2*link_w-chmf_offs_r,h=link_h+2*bolt_holder_t+0.1,  center=true);
+																		}
 																}
-															translate([0,d2/2+link_l2,0]) cube([link_w+0.1,link_w+0.1,link_h+2*clearance_mp], center=true);
+															translate([0,d2/2+link_l2,0]) cube([3*link_w+0.1,link_w+0.1,link_h+2*clearance_mp], center=true);
 														}
 													 translate([0,d2/2+link_l2,0]) cylinder(d=link_bolt,h=link_h+2*clearance_mp, center=true); // link bolt
 												 }
@@ -354,8 +415,15 @@ module upper_tubering_2() // upper tr
 								  }
 							translate([-1/2,lock_upper_l2/2,0]) rotate([0,90,0]) cylinder(d=screwnut_hole_upper, h=lock_upper_h+1+0.1, center=true);
 						}
+    translate([-lock_upper_h-chmf_rad_l/2-clearance_lock,-(d2/2+chmf_rad_l/2+chmf_offs_l),0])
+    rotate([180,0,0])
+    difference() // chamfer
+  {
+  cube([chmf_rad_l,chmf_rad_l,lock_upper_w], center=true);
+  translate([-chmf_rad_l/2,chmf_rad_l/2+0,0])  cylinder(d=(2 * chmf_rad_l), h=lock_upper_w+0.1, center=true);
+  }
 				}
-			union()
+			union() // angle marks
 				{
 					for (i = [-3:+3])
 						{
@@ -402,7 +470,7 @@ module stiffeners()
 							cube([lock_upper_h,stiff_dia,stiff_base], center=true);
 							  
 							translate([(clearance_lock)+lock_upper_h/2,samyang_d2/2-stiff_dia/2+lock_upper_l2,-(-(dovetail_l)/2+tubering_w2/2+stiff_base/2+lock_upper_w/2)])
-							cube([lock_upper_h,stiff_dia,stiff_base], center=true);						          
+							cube([lock_upper_h,stiff_dia,stiff_base], center=true);						  
 						}
 }
  
