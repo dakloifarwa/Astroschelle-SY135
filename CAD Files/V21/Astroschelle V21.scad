@@ -65,7 +65,11 @@ module dovetail()
 	length = dovetail_l;
 	Rchamfer = 20.0;
 	difference()
-		{
+	{
+		union()
+			{
+				difference()
+					{
 			union(center = true)
 				{
 					translate([0,0,-wh-tube_offset])
@@ -154,6 +158,10 @@ module dovetail()
 					translate([0,0,(samyang_d2+2*tubering_t+tube_offset)/2]) rotate([90,0,0]) cylinder(d=samyang_d2+2*tubering_t, h=tubering_w2+1, center=true);
 				}
 		}
+	}
+	translate([-2,-length/2,-15.5]) rotate([90,0,0]) scale([0.3,0.3,0.025]) surface(file="dakloifarwa.logo.mono.small.png",center=true, invert=true); // logo
+	translate([0,+length/2,-12.5]) rotate([270,180,0]) scale([0.2,0.2,0.025]) surface(file="oshwa.certification.de000004.png",center=true, invert=true); // OSHWA cert. mark
+	}
 }
  
 module lower_tubering_1() // lower tr
