@@ -1,7 +1,9 @@
 //--------------------------------------------------------------------------
 lens_type = "SY-35-F1.2"; // lens type options: "SY-135-F2.0", "SY-35-F1.2"
 //--------------------------------------------------------------------------
- 
+
+echo("current lens type: ", lens_type);
+
 $fn = 300; // global number of fragments, 300 for final export to STL
 min_wt = 3.0; // minimum wall thickness for carrier elements
 samyang_h1 = (lens_type == "SY-135-F2.0" ? 50.0 : 47.0); // Samyang lens dimensions
@@ -53,15 +55,16 @@ screwnut_hole_lower = lock_screw + 1.0;
 screwnut_hole_upper = lock_screw + 0.5;
 mh_dia = 2.0; // maintenance hole
 
-M4 = 4.0;
+THREAD_M4 = 4.0;
 
-tm_sw = 25.4 * 9/16;
+// tripod mount:
+tm_sw = 25.4 * 9/16; // width across flats
 tm_snh = 8.5 + 0.3; // includes tolerance!
-tm_hd = 25.4 * 3/8;
-tm_slot_l = dovetail_wb/2+0.1;
-tm_ad_d = tm_hd + 2 * 1.5;
-tm_ad_h = 1.5;
-tm_wt = 1.5 + tm_ad_h;
+tm_hole_dia = 25.4 * 3/8;
+tm_slot_length = dovetail_wb/2 + 0.1;
+tm_adap_dia = 10.0 + 2 * 0.5; // adapter waist diameter + tolerance
+tm_adap_height = 0.7 + 0.3; // adapter waist height + tolerance
+tm_wt = 1.5 + tm_adap_height; // wall thickness for screw mount
 tm_sl = tm_snh + tm_wt;
  
 module samyang_lens()
@@ -74,7 +77,7 @@ module KnurledScrew_Nylon_M4(length)
 {
 	head_length = 8.1;
 	head_dia = 10.5;
-	translate([0,0,-length/2]) cylinder(d=M4, h=length, center=true); // thread
+	translate([0,0,-length/2]) cylinder(d=THREAD_M4, h=length, center=true); // thread
 	translate([0,0,head_length/2]) cylinder(d=head_dia, h=head_length, center=true); // head
 }
 
@@ -100,11 +103,11 @@ module dovetail()
 				}
 			union ()
 				{
-					translate([0,0,-wh-tube_offset+(tm_sl-0.1)/2]) cylinder(d=tm_hd+0.4, h=tm_sl+0.1, center=true); // tripod hole
+					translate([0,0,-wh-tube_offset+(tm_sl-0.1)/2]) cylinder(d=tm_hole_dia+0.4, h=tm_sl+0.1, center=true); // tripod hole
 					translate([0,0,-wh-tube_offset+tm_snh/2+tm_wt]) cylinder(d=(tm_sw*2)/sqrt(3), h=tm_snh, center=true, $fn=6); // screw nut
-					translate([tm_slot_l/2,0,-wh-tube_offset+tm_snh/2+tm_wt]) cube([tm_slot_l,tm_sw,tm_snh], center=true); // slot for nut
-					translate([0,0,-wh-tube_offset+(tm_ad_h-0.1)/2]) cylinder(d=tm_ad_d, h=tm_ad_h+0.1, center=true); // adapter headroom
-					translate([-tm_slot_l/2,0,-wh-tube_offset+tm_snh/2+tm_wt]) rotate([0,90,0]) cylinder(d=2.0, h=tm_slot_l, center=true); // eject hole
+					translate([tm_slot_length/2,0,-wh-tube_offset+tm_snh/2+tm_wt]) cube([tm_slot_length,tm_sw,tm_snh], center=true); // slot for nut
+					translate([0,0,-wh-tube_offset+(tm_adap_height-0.1)/2]) cylinder(d=tm_adap_dia, h=tm_adap_height+0.1, center=true); // adapter headroom
+					translate([-tm_slot_length/2,0,-wh-tube_offset+tm_snh/2+tm_wt]) rotate([0,90,0]) cylinder(d=2.0, h=tm_slot_length, center=true); // eject hole
 				}
 			
 		}
