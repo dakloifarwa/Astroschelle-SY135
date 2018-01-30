@@ -50,13 +50,23 @@ lock_screw = 4.0; // M4 screw
 screwnut_hole_lower = lock_screw + 1.0;
 screwnut_hole_upper = lock_screw + 0.5;
 mh_dia = 2.0; // maintenance hole
- 
+
+M4 = 4.0;
+
 module samyang_lens()
 {
 	cylinder(d=samyang_d2,h=samyang_h2);
 	translate([0,0,-samyang_h1]) cylinder(d=samyang_d1,h=samyang_h1);
 }
  
+module KnurledScrew_Nylon_M4(length)
+{
+	head_length = 8.1;
+	head_dia = 10.5;
+	translate([0,0,-length/2]) cylinder(d=M4, h=length, center=true); // thread
+	translate([0,0,head_length/2]) cylinder(d=head_dia, h=head_length, center=true); // head
+}
+
 module dovetail()
 {
 	wb = dovetail_wb;
@@ -504,4 +514,5 @@ module astroschelle()
 }
  
 *color("grey") samyang_lens();
-astroschelle();
+*translate([7,53,0]) rotate([90,0,90]) KnurledScrew_Nylon_M4(20);
+#astroschelle();
