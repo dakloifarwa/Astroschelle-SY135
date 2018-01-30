@@ -515,4 +515,4 @@ module astroschelle()
  
 *color("grey") samyang_lens();
 *translate([7,53,0]) rotate([90,0,90]) KnurledScrew_Nylon_M4(20);
-#astroschelle();
+astroschelle();
