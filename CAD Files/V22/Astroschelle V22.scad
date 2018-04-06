@@ -60,11 +60,11 @@ THREAD_M4 = 4.0;
 // tripod mount:
 tm_sw = 25.4 * 9/16; // width across flats
 tm_snh = 8.5 + 0.3; // includes tolerance!
-tm_hole_dia = 25.4 * 3/8;
+tm_hole_dia = 25.4 * 3/8 - 0.5;
 tm_slot_length = dovetail_wb/2 + 0.1;
 tm_adap_dia = 10.0 + 2 * 0.5; // adapter waist diameter + tolerance
-tm_adap_height = 0.7 + 0.3; // adapter waist height + tolerance
-tm_wt = 1.5 + tm_adap_height; // wall thickness for screw mount
+tm_adap_height = 0.7 + 0.1; // adapter waist height + tolerance
+tm_wt = 2.0 + tm_adap_height; // wall thickness for screw mount
 tm_sl = tm_snh + tm_wt;
  
 module samyang_lens()
@@ -103,7 +103,7 @@ module dovetail()
 				}
 			union ()
 				{
-					translate([0,0,-wh-tube_offset+(tm_sl-0.1)/2]) cylinder(d=tm_hole_dia+0.4, h=tm_sl+0.1, center=true); // tripod hole
+					translate([0,0,-wh-tube_offset+(tm_sl-0.1)/2]) cylinder(d=tm_hole_dia, h=tm_sl+0.1, center=true); // tripod hole
 					translate([0,0,-wh-tube_offset+tm_snh/2+tm_wt]) cylinder(d=(tm_sw*2)/sqrt(3), h=tm_snh, center=true, $fn=6); // screw nut
 					translate([tm_slot_length/2,0,-wh-tube_offset+tm_snh/2+tm_wt]) cube([tm_slot_length,tm_sw,tm_snh], center=true); // slot for nut
 					translate([0,0,-wh-tube_offset+(tm_adap_height-0.1)/2]) cylinder(d=tm_adap_dia, h=tm_adap_height+0.1, center=true); // adapter headroom
