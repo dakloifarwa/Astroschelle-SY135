@@ -20,8 +20,8 @@ tubering_t = min_wt + 0.5;
 tubering_w1 = (lens_type == "SY-135-F2.0" ?  7.0 : 10.0); // width
 tubering_w2 = (lens_type == "SY-135-F2.0" ? 13.0 : 10.0);
  
-dovetail_wb = 50.0;
-dovetail_wt = 40.0;
+dovetail_wb = 45.0;
+dovetail_wt = 37.0;
 dovetail_wh = 15.0;
 dovetail_l = (lens_type == "SY-135-F2.0" ? 59.0 : 46.5) + tubering_w1 + tubering_w2;
  
