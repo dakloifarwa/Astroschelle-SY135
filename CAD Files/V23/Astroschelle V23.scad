@@ -60,7 +60,7 @@ THREAD_M4 = 4.0;
 // tripod mount:
 tm_sw = 25.4 * 9/16; // width across flats
 tm_snh = 8.5 + 0.3; // includes tolerance!
-tm_hole_dia = 25.4 * 3/8;
+tm_hole_dia = 25.4 * 3/8 - 0.5;
 tm_slot_length = dovetail_wb/2 + 0.1;
 tm_adap_dia = 10.0 + 2 * 0.5; // adapter waist diameter + tolerance
 tm_adap_height = 0.7 + 0.1; // adapter waist height + tolerance
@@ -191,8 +191,8 @@ module dovetail()
 				}
 		}
 }
-	*translate([-2,-length/2,-15.5]) rotate([90,0,0]) scale([0.3,0.3,0.025]) surface(file="dakloifarwa.logo.mono.small.png",center=true, invert=true); // logo
-	*translate([0,+length/2,-12.5]) rotate([270,180,0]) scale([0.2,0.2,0.025]) surface(file="oshwa.certification.de000004.png",center=true, invert=true); // OSHWA cert. mark
+	translate([-2,-length/2,-15.5]) rotate([90,0,0]) scale([0.3,0.3,0.025]) surface(file="dakloifarwa.logo.mono.small.png",center=true, invert=true); // logo
+	translate([0,+length/2,-12.5]) rotate([270,180,0]) scale([0.2,0.2,0.025]) surface(file="oshwa.certification.de000004.png",center=true, invert=true); // OSHWA cert. mark
 	}
 }
  
@@ -542,7 +542,7 @@ difference()
 		{
 			*translate([0,0,10]) color("grey") samyang_lens();
 			*translate([7,53,0]) rotate([90,0,90]) KnurledScrew_Nylon_M4(20);
-			rotate([0,270,0]) astroschelle();
+			astroschelle();
 		}
 	*translate([-100,0,0]) cube([100,100,100]);
 	*translate([-100,-50,0]) cube([100,100,100]);
